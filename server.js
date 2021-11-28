@@ -6,7 +6,7 @@ const ordenes = require("./app/modules/ordenes");
 const destinos = require("./app/modules/destinos");
 
 const app = express();
-const port = 3000;
+const port = process.env.API_PORT;
 app.use(express.json());
 
 // db mongo
