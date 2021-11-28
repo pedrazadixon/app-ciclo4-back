@@ -1,13 +1,24 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const resp = require("../responses/responses");
+const Model = require("../models/Usuario");
 
-// define the home page route
-router.get("/", (req, res) => {
-  res.send("get usuarios");
+const router = express.Router();
+
+// lista de usuarios
+router.get("/", async (req, res) => {
+  let usuarios = await Model.find();
+  resp.ok(res, usuarios);
 });
-// define the about route
-router.get("/about", (req, res) => {
-  res.send("get usuarios/about");
+
+// crear nuevo usuario
+router.post("/", async (req, res) => {
+  try {
+    let usuario = new Model(req.body);
+    await usuario.save();
+    resp.ok(res, usuario);
+  } catch (error) {
+    resp.error(res, error.message);
+  }
 });
 
 module.exports = router;
