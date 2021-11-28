@@ -35,4 +35,14 @@ router.put("/:id", async (req, res) => {
   resp.ok(res, usuario);
 });
 
+// detalles
+router.get("/:id", async (req, res) => {
+  try {
+    const usuario = await Model.findById(req.params.id);
+    resp.ok(res, usuario);
+  } catch (error) {
+    resp.error(res, error.message);
+  }
+});
+
 module.exports = router;
