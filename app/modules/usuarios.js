@@ -6,16 +6,16 @@ const router = express.Router();
 
 // listar
 router.get("/", async (req, res) => {
-  let usuarios = await Model.find();
-  resp.ok(res, usuarios);
+  let entidades = await Model.find();
+  resp.ok(res, entidades);
 });
 
 // crear
 router.post("/", async (req, res) => {
   try {
-    let usuario = new Model(req.body);
-    await usuario.save();
-    resp.ok(res, usuario);
+    let entidad = new Model(req.body);
+    await entidad.save();
+    resp.ok(res, entidad);
   } catch (error) {
     resp.error(res, error.message);
   }
@@ -24,8 +24,8 @@ router.post("/", async (req, res) => {
 // detalles
 router.get("/:id", async (req, res) => {
   try {
-    const usuario = await Model.findById(req.params.id);
-    resp.ok(res, usuario);
+    const entidad = await Model.findById(req.params.id);
+    resp.ok(res, entidad);
   } catch (error) {
     resp.error(res, error.message);
   }
@@ -35,8 +35,8 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   delete req.body.contrasena;
   await Model.findByIdAndUpdate(req.params.id, req.body);
-  const usuario = await Model.findById(req.params.id);
-  resp.ok(res, usuario);
+  const entidad = await Model.findById(req.params.id);
+  resp.ok(res, entidad);
 });
 
 // eliminar
