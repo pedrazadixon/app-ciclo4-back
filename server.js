@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => res.send("app ok"));
+app.get("/", (req, res) => res.send("app-ciclo4-back - api"));
 
 // modulos
 app.use("/usuarios", usuarios);
