@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const db = require("./app/db/db");
+const config = require("./app/modules/config");
 const usuarios = require("./app/modules/usuarios");
 const ordenes = require("./app/modules/ordenes");
 const destinos = require("./app/modules/destinos");
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => res.send("app-ciclo4-back - api"));
 
 // modulos
+app.use("/config", config);
 app.use("/usuarios", usuarios);
 app.use("/ordenes", ordenes);
 app.use("/destinos", destinos);
