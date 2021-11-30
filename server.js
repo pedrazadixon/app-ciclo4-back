@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-var cors = require('cors')
+var cors = require("cors");
 const db = require("./app/db/db");
 const config = require("./app/modules/config");
 const usuarios = require("./app/modules/usuarios");
@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // cors
-app.use(cors())
+app.use(cors());
 
 // db mongo
 db(process.env.DB_URL);
@@ -31,4 +31,6 @@ app.use("/usuarios", usuarios);
 app.use("/ordenes", ordenes);
 app.use("/destinos", destinos);
 
-app.listen(port);
+app.listen(port, () => {
+  console.log(`== api listening at http://localhost:${port}`);
+});
