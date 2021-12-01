@@ -10,6 +10,16 @@ router.get("/", async (req, res) => {
   resp.ok(res, entidades);
 });
 
+// detalles
+router.get("/:id", async (req, res) => {
+  try {
+    const entidad = await Model.findById(req.params.id);
+    resp.ok(res, entidad);
+  } catch (error) {
+    resp.error(res, error.message);
+  }
+});
+
 // crear
 router.post("/", async (req, res) => {
   try {
