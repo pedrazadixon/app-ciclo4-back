@@ -1,5 +1,6 @@
 const express = require("express");
 const resp = require("../responses/responses");
+const OrdenesModel = require("../models/Orden");
 const Model = require("../models/Usuario");
 
 const router = express.Router();
@@ -42,6 +43,10 @@ router.put("/:id", async (req, res) => {
 // eliminar
 router.delete("/:id", async (req, res) => {
   await Model.findByIdAndDelete(req.params.id);
+
+  // eliminar ordenes asociadas al usuario
+  await OrdenesModel.deleteMany({ usuario: req.params.id });
+
   resp.ok(res, "deleted");
 });
 
