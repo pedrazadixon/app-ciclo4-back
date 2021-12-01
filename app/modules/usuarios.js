@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const resp = require("../responses/responses");
 const OrdenesModel = require("../models/Orden");
 const Model = require("../models/Usuario");
@@ -15,6 +16,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let entidad = new Model(req.body);
+    let pass_hash = await bcrypt.hash(req.body.contrasena, 10);
+    entidad.contrasena = pass_hash;
     await entidad.save();
     resp.ok(res, entidad);
   } catch (error) {
