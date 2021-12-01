@@ -6,7 +6,7 @@ const router = express.Router();
 
 // listar
 router.get("/", async (req, res) => {
-  let entidades = await Model.find().populate("destino");
+  let entidades = await Model.find().populate(["destino", "usuario"]);
   resp.ok(res, entidades);
 });
 
@@ -24,7 +24,10 @@ router.post("/", async (req, res) => {
 // detalles
 router.get("/:id", async (req, res) => {
   try {
-    const entidad = await Model.findById(req.params.id).populate("destino");
+    const entidad = await Model.findById(req.params.id).populate([
+      "destino",
+      "usuario",
+    ]);
     resp.ok(res, entidad);
   } catch (error) {
     resp.error(res, error.message);

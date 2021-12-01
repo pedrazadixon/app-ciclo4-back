@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const Orden = mongoose.model("Orden", {
-  nombre: {
-    type: String,
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario",
     required: true,
   },
   descripcion: {
@@ -20,6 +21,7 @@ const Orden = mongoose.model("Orden", {
   destino: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Destino",
+    required: true,
   },
   estado: {
     type: String,
