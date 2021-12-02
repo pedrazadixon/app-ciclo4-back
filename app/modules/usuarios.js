@@ -19,6 +19,7 @@ router.post("/", async (req, res) => {
     let pass_hash = await bcrypt.hash(req.body.contrasena, 10);
     entidad.contrasena = pass_hash;
     await entidad.save();
+    entidad.contrasena = undefined;
     resp.ok(res, entidad);
   } catch (error) {
     resp.error(res, error.message);
