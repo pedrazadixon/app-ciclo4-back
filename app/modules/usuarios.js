@@ -35,6 +35,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+// registro
+router.post("/registro", async (req, res) => {
+  try {
+    let entidad = new Model(req.body);
+    let pass_hash = await bcrypt.hash(req.body.contrasena, 10);
+    entidad.contrasena = pass_hash;
+    entidad.rol = "Usuario Externo";
+    await entidad.save();
+    entidad.contrasena = undefined;
+    resp.ok(res, entidad);
+  } catch (error) {
+    resp.error(res, error.message);
+  }
+});
+
 // detalles
 router.get("/:id", async (req, res) => {
   try {
