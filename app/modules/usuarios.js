@@ -54,4 +54,31 @@ router.delete("/:id", async (req, res) => {
   resp.ok(res, "deleted");
 });
 
+// login
+router.post("/iniciar-sesion", async (req, res) => {
+  try {
+    let usuario = await Model.findOne({ email: req.body.email }).select(
+      "+contrasena"
+    );
+
+    if (usuario === null) {
+      return resp.error(res, "Usuario no existe o credenciales incorrectas.");
+    }
+
+    let contrasenaEsCorrecta = await bcrypt.compare(
+      req.body.contrasena,
+      usuario.contrasena
+    );
+
+    if (contrasenaEsCorrecta) {
+      usuario.contrasena = undefined;
+      return resp.ok(res, usuario);
+    }
+
+    return resp.error(res, "Usuario no existe o credenciales incorrectas.");
+  } catch (error) {
+    resp.error(res, error.message);
+  }
+});
+
 module.exports = router;
