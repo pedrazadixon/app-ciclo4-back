@@ -38,7 +38,17 @@ router.get("/:id", async (req, res) => {
 
 // editar
 router.put("/:id", async (req, res) => {
-  delete req.body.contrasena;
+  if (req.body.contrasena) {
+    if (req.body.contrasena.trim().length <= 0) {
+      // si la contraseña viene vacia, no la modifico
+      delete req.body.contrasena;
+    } else {
+      // si viene una contraseña, genero hash
+      let pass_hash = await bcrypt.hash(req.body.contrasena, 10);
+      req.body.contrasena = pass_hash;
+    }
+  }
+
   await Model.findByIdAndUpdate(req.params.id, req.body);
   const entidad = await Model.findById(req.params.id);
   resp.ok(res, entidad);
