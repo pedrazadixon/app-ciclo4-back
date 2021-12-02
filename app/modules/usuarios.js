@@ -8,7 +8,16 @@ const router = express.Router();
 
 // listar
 router.get("/", async (req, res) => {
-  let entidades = await Model.find();
+  let entidades = [];
+
+  if (req.headers["user-id"]) {
+    let usuario = await Model.findById(req.headers["user-id"]);
+    if (usuario.rol === "Administrador") {
+      entidades = await Model.find();
+    } else {
+      entidades = [usuario];
+    }
+  }
   resp.ok(res, entidades);
 });
 

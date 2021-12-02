@@ -1,12 +1,24 @@
 const express = require("express");
 const resp = require("../responses/responses");
 const Model = require("../models/Orden");
+const UsuariosModel = require("../models/Usuario");
 
 const router = express.Router();
 
 // listar
 router.get("/", async (req, res) => {
-  let entidades = await Model.find().populate(["destino", "usuario"]);
+  let entidades = [];
+
+  if (req.headers["user-id"]) {
+    let usuario = await UsuariosModel.findById(req.headers["user-id"]);
+    if (usuario.rol === "Administrador") {
+      entidades = await Model.find().populate(["destino", "usuario"]);
+    } else {
+      entidades = await Model.find({
+        usuario: req.headers["user-id"],
+      }).populate(["destino", "usuario"]);
+    }
+  }
   resp.ok(res, entidades);
 });
 
